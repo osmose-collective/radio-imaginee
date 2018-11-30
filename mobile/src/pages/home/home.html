@@ -1,14 +1,34 @@
 <ion-header>
-  <ion-navbar>
+  <ion-toolbar color='primary' padding>
     <ion-title>
-      Ionic Blank
+      <img src="../../assets/imgs/logo.png" height="60">
     </ion-title>
-  </ion-navbar>
+  </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+<ion-content no-bounce padding>
 </ion-content>
+
+<ion-footer *ngIf="currentFile.file">
+  <ion-toolbar color="primary">
+    <ion-grid>
+      <ion-row align-items-center id="media-controls">
+        <button clear ion-col ion-button (click)="openMenu()">
+          <ion-icon color="light" name="add-circle"> </ion-icon>
+        </button>
+        <button clear ion-col ion-button *ngIf="!state.playing" (click)="play()">
+          <ion-icon color="light" name="play"></ion-icon>
+        </button>
+        <button clear ion-col ion-button *ngIf="!!state.playing" (click)="pause()">
+          <ion-icon color="light" name="pause"></ion-icon>
+        </button>
+        <button clear ion-col ion-button [disabled]="isLastPlaying()" (click)="next()">
+          <ion-icon color="light" name="arrow-dropright-circle"></ion-icon>
+        </button>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+  <ion-toolbar class="secondFooter" color="primary">
+      <img src="../../assets/imgs/footer.png" height="35">
+  </ion-toolbar>
+</ion-footer>
