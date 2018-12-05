@@ -192,7 +192,7 @@ export class HomePage {
   }
 
   openSamouraiLink() {
-    this.iab.create('https://samourai.coop', '_system');
+    this.iab.create('http://www.samourai.coop', '_system');
   }
 
   openArtistsLink() {

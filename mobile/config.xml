@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="io.ionic.starter" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>MyApp</name>
-    <description>An awesome Ionic/Cordova app.</description>
-    <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
+    <name>Shaman</name>
+    <description>A shaman in your pocket.</description>
+    <author email="hello@samourai.coop" href="http://www.samourai.coop/">Samourai Coop</author>
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
@@ -84,7 +84,7 @@
     <plugin name="cordova-plugin-nativeaudio" spec="3.0.9" />
     <plugin name="cordova-plugin-statusbar" spec="^2.4.2" />
     <plugin name="cordova-plugin-navigationbar" spec="1.0.31" />
+    <plugin name="cordova-plugin-inappbrowser" spec="3.0.0" />
     <engine name="browser" spec="5.0.4" />
     <engine name="android" spec="7.1.4" />
-    <plugin name="cordova-plugin-inappbrowser" spec="3.0.0" />
 </widget>
