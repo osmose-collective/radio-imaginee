@@ -1,12 +1,14 @@
 import {Component, ViewChild} from '@angular/core';
 import {trigger, state, style, animate, transition } from '@angular/animations';
-import {NavController, ModalController, NavParams, Navbar, Content, LoadingController} from 'ionic-angular';
-import {AudioProvider} from '../../providers/audio/audio';
-import {FormControl} from '@angular/forms';
-import {CANPLAY, LOADEDMETADATA, PLAYING, TIMEUPDATE, LOADSTART, RESET} from '../../providers/store/store';
+import {NavController, ModalController, NavParams, Navbar, Content, LoadingController, MenuController} from 'ionic-angular';
 import {Store} from '@ngrx/store';
-import {CloudProvider} from '../../providers/cloud/cloud';
+import {FormControl} from '@angular/forms';
+import { InAppBrowser } from '@ionic-native/in-app-browser'
+
 import {pluck, filter, map, distinctUntilChanged} from 'rxjs/operators';
+import {CANPLAY, PLAYING, LOADSTART, RESET} from '../../providers/store/store';
+import {AudioProvider} from '../../providers/audio/audio';
+import {CloudProvider} from '../../providers/cloud/cloud';
 
 @Component({
   selector: 'page-home',
@@ -30,6 +32,7 @@ import {pluck, filter, map, distinctUntilChanged} from 'rxjs/operators';
     ])
   ]
 })
+
 export class HomePage {
   files: any = [];
   seekbar: FormControl = new FormControl("seekbar");
@@ -37,16 +40,19 @@ export class HomePage {
   onSeekState: boolean;
   currentFile: any = {};
   displayFooter: string = "inactive";
+  toggleMenu: boolean;
   @ViewChild(Navbar) navBar: Navbar;
   @ViewChild(Content) content: Content;
 
   constructor(
     public navCtrl: NavController,
     public modalCtrl: ModalController,
+    public menuCtrl: MenuController,
     public navParams: NavParams,
     public audioProvider: AudioProvider,
     public loadingCtrl: LoadingController,
     public cloudProvider: CloudProvider,
+    private iab: InAppBrowser,
     private store: Store<any>
   ) {
     this.getDocuments();
@@ -54,10 +60,12 @@ export class HomePage {
 
   getDocuments() {
     let loader = this.presentLoading();
-    this.cloudProvider.getFiles().subscribe(files => {
+
+    this.cloudProvider.updateFileList().then(files => {
       this.files = files;
       loader.dismiss();
       this.openFile(files[0], 0);
+      this.toggleMenu = false;
     });
   }
 
@@ -99,7 +107,7 @@ export class HomePage {
 
   openFile(file, index) {
     this.currentFile = { index, file };
-    this.playStream(file.url);
+    this.playStream(file);
   }
 
   resetState() {
@@ -140,7 +148,11 @@ export class HomePage {
   }
 
   next() {
-    let index = this.currentFile.index + 1;
+    let index;
+    if(this.currentFile.index < this.files.length - 1)
+      index = this.currentFile.index + 1;
+    else
+      index = 0;
     let file = this.files[index];
     this.openFile(file, index);
   }
@@ -152,7 +164,7 @@ export class HomePage {
   }
 
   openMenu() {
-    this.content.resize();
+    this.toggleMenu = !this.toggleMenu;
   }
 
   isFirstPlaying() {
@@ -179,10 +191,17 @@ export class HomePage {
     }
   }
 
+  openSamouraiLink() {
+    this.iab.create('https://samourai.coop', '_system');
+  }
+
+  openArtistsLink() {
+    this.iab.create('https://www.fastoart.com/', '_system');
+  }
+
   reset() {
     this.resetState();
     this.currentFile = {};
     this.displayFooter = "inactive";
   }
 }
-

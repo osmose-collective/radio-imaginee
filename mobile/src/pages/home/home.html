@@ -12,6 +12,14 @@
 <ion-footer *ngIf="currentFile.file">
   <ion-toolbar color="primary">
     <ion-grid>
+      <ion-row *ngIf="toggleMenu" align-items-center id="menu">
+        <button clear ion-col ion-button (click)="openArtistsLink()">
+            _ABOUT ARTISTS
+          </button>
+          <button clear ion-col ion-button (click)="openSamouraiLink()">
+            _SAMOURAI COOP
+          </button>
+      </ion-row>
       <ion-row align-items-center id="media-controls">
         <button clear ion-col ion-button (click)="openMenu()">
           <ion-icon color="light" name="add-circle"> </ion-icon>
@@ -22,7 +30,7 @@
         <button clear ion-col ion-button *ngIf="!!state.playing" (click)="pause()">
           <ion-icon color="light" name="pause"></ion-icon>
         </button>
-        <button clear ion-col ion-button [disabled]="isLastPlaying()" (click)="next()">
+        <button clear ion-col ion-button (click)="next()">
           <ion-icon color="light" name="arrow-dropright-circle"></ion-icon>
         </button>
       </ion-row>

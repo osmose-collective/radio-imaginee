@@ -7,6 +7,7 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { NavigationBar } from '@ionic-native/navigation-bar';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 import { mediaStateReducer } from '../providers/store/store';
 import { AudioProvider } from '../providers/audio/audio';
@@ -42,6 +43,7 @@ import { IonicStorageModule } from '@ionic/storage';
     AudioProvider,
     CloudProvider,
     NavigationBar,
+    InAppBrowser,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
   ]
 })
