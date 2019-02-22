@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'; 
 import 'rxjs/add/operator/map';
 
-const serverURL = 'http://51.15.88.55:3000';
+const serverURL = 'http://74.63.216.50:8000';
 
 @Injectable()
 export class CloudProvider {
@@ -13,11 +13,17 @@ export class CloudProvider {
   }
 
   updateFileList() {
-    if (this.files) {
-      return Promise.resolve(this.files);
-    }
+    if(!this.files)
+      this.files = [];
+
+    //if (this.files) {
+      this.files[0] = serverURL + '/stream.ogg';
+      console.log(this.files[0]);
+      return this.files;
+      //return Promise.resolve(this.files);
+    //}
  
-    return new Promise(resolve => {
+    /*return new Promise(resolve => {
       this.http.get(serverURL + '/sound_list')
         .subscribe(data => {
           this.files = data;
@@ -37,6 +43,6 @@ export class CloudProvider {
 
           resolve(this.files);
         });
-    });
+    });*/
   }
 }

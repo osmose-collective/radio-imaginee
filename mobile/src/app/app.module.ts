@@ -13,13 +13,13 @@ import { mediaStateReducer } from '../providers/store/store';
 import { AudioProvider } from '../providers/audio/audio';
 import { CloudProvider } from '../providers/cloud/cloud';
 
-import { ShamanApp } from './app.component';
+import { RadioOSMOSE } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { IonicStorageModule } from '@ionic/storage';
 
 @NgModule({
   declarations: [
-    ShamanApp,
+    RadioOSMOSE,
     HomePage
   ],
   imports: [
@@ -30,11 +30,11 @@ import { IonicStorageModule } from '@ionic/storage';
     StoreModule.forRoot({
       appState: mediaStateReducer
     }),
-    IonicModule.forRoot(ShamanApp)
+    IonicModule.forRoot(RadioOSMOSE)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    ShamanApp,
+    RadioOSMOSE,
     HomePage
   ],
   providers: [

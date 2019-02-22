@@ -60,13 +60,17 @@ export class HomePage {
 
   getDocuments() {
     let loader = this.presentLoading();
+    let files = this.cloudProvider.updateFileList();
+    loader.dismiss();
+    this.openFile(files[0], 0);
+    this.toggleMenu = false;
 
-    this.cloudProvider.updateFileList().then(files => {
+    /*this.cloudProvider.updateFileList().then(files => {
       this.files = files;
       loader.dismiss();
       this.openFile(files[0], 0);
       this.toggleMenu = false;
-    });
+    });*/
   }
 
   presentLoading() {
