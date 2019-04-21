@@ -1,0 +1,49 @@
+version: '2'
+
+services:
+  main:
+    image: moul/liquidsoap
+    volumes:
+      - ./liquidsoap/config:/config
+      - ./playlists:/playlists
+    command: /bin/bash -xc 'env; /supervisor.sh liquidsoap -v --debug /config/main.liq'
+    environment:
+      - HARBOR_PASSWORD
+      - LIVE_PASSWORD
+      - BROADCAST_PORT_5001_TCP_ADDR=broadcast
+      - BROADCAST_PORT_5001_TCP_PORT=5001
+    links:
+      - broadcast
+    ports:
+      - 8021:5001
+      - 8022:5002
+      - 127.0.0.1:5000:5000
+  
+  broadcast:
+    image: moul/liquidsoap
+    volumes:
+      - ./liquidsoap/config:/config
+      - ./playlists/failures:/playlists/failures
+    command: /bin/bash -xc 'env; /supervisor.sh liquidsoap -v --debug /config/broadcast.liq'
+    environment:
+      - HARBOR_PASSWORD
+      - ICECAST_SOURCE_PASSWORD
+      - ICECAST_PORT_8000_TCP_ADDR=icecast
+      - ICECAST_PORT_8000_TCP_PORT=8000
+    links:
+      - icecast
+    ports:
+      - 5001
+  
+  icecast:
+    image: moul/icecast
+    volumes:
+      - ./logs/icecast2:/var/log/icecast2
+    environment:
+      - ICECAST_SOURCE_PASSWORD
+      - ICECAST_ADMIN_PASSWORD
+      - ICECAST_PASSWORD
+      - ICECAST_RELAY_PASSWORD
+    ports:
+      - 8000:8000
+    restart: always

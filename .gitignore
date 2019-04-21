@@ -1,0 +1,17 @@
+.env
+*~
+*#
+.#*
+/data/
+/playlists/
+/old/
+/logs/
+/ftpd/
+/btsync/
+/config.mk
+/mysql/
+/backup-1and1/
+/admin/*.cache
+triplie.db
+*.zip
+GLaDOS
