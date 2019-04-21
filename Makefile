@@ -27,7 +27,7 @@ re-controller: up
 
 .PHONY: up
 up:
-	-@mkdir -p logs/icecast2; chmod 777 logs logs/icecast2; true
+	-@mkdir -p logs/icecast2 data; chmod 777 data logs logs/icecast2; true
 	$(ENV) docker-compose up -d --no-recreate
 
 .PHONY: down ps

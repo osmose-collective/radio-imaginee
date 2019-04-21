@@ -29,6 +29,11 @@ set("decoding.buffer_length",10.)
 #    )
 #)
 
+def write_metadata_to_file(m) =
+    system("echo "^ quote(m["artist"] ^" - "^ m["title"]) ^" > /data/latest.txt")
+    system("echo "^ quote(m["artist"] ^" - "^ m["title"]) ^" >> /data/history.txt")
+end
+
 jingles = mksafe(
     rewrite_metadata(
         [
@@ -140,6 +145,9 @@ mix = audio_process(mix)
 
 # OUTPUTS
 mix = mksafe(mix)
+
+mix = on_metadata(write_metadata_to_file, mix)
+
 output.icecast(
     password=my_getenv("HARBOR_PASSWORD"),
     host=my_getenv("BROADCAST_PORT_5001_TCP_ADDR"),
