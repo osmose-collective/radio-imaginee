@@ -4,7 +4,6 @@ import (
 	"encoding/xml"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"time"
 
@@ -25,29 +24,37 @@ type Icestats struct {
 func getInfo(c *cli.Context) (*Info, error) {
 	info := &Info{
 		CurrentTime:  time.Now(),
-		Listeners:    42,
+		Listeners:    0,
 		CurrentTrack: "mylena - hey",
 	}
 
 	// fetch real listeners
 	if xmlStr, err := getWithAuth("http://new.radio.lasuitedumonde.com:8000/admin/stats.xml"); err != nil {
-		log.Printf("Failed to get XML: %v", err)
+		return nil, fmt.Errorf("failed to get XML: %v", err)
 	} else {
 		var stats Icestats
 		xml.Unmarshal([]byte(xmlStr), &stats)
 		if stats.Listeners > info.Listeners {
 			info.Listeners = stats.Listeners
 		}
-		(url string) (string, error) {
+	}
+	return info, nil
+}
+
+func getWithAuth(url string) (string, error) {
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", url, nil)
 	req.SetBasicAuth("admin", "secure")
 	resp, err := client.Do(req)
 	if err != nil {
-		log.Fatal(err)
+		return "", err
 	}
-	bodyText, err := ioutil.ReadAll(resp.Body)
-	data := string(bodyText)
+	defer resp.Body.Close()
 
-	return string(data), nil
+	bodyText, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return "", err
+	}
+
+	return string(bodyText), nil
 }

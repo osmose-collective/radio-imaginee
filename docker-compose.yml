@@ -28,6 +28,7 @@ services:
     volumes:
       - ./data:/data
     restart: on-failure
+    command: server
     links:
       - icecast
       - main
