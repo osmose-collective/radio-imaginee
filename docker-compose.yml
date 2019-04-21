@@ -6,6 +6,7 @@ services:
     volumes:
       - ./liquidsoap/config:/config
       - ./playlists:/playlists
+      - ./data:/data
     command: /bin/bash -xc 'env; /supervisor.sh liquidsoap -v --debug /config/main.liq'
     environment:
       - HARBOR_PASSWORD
@@ -24,6 +25,8 @@ services:
     build: controller
     ports:
       - 8042:8042
+    volumes:
+      - ./data:/data
     restart: on-failure
     links:
       - icecast
