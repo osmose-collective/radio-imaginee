@@ -1,17 +1,41 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
-	"net/http"
+	"os"
 
-	"github.com/go-chi/chi"
+	cli "gopkg.in/urfave/cli.v2"
 )
 
 func main() {
-	fmt.Println("Starting server on :8042...")
-	r := chi.NewRouter()
-	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("welcome"))
-	})
-	http.ListenAndServe(":8042", r)
+	app := cli.App{
+		Name: "controller",
+		Commands: []*cli.Command{
+			{
+				Name: "server",
+				Flags: []cli.Flag{
+					&cli.StringFlag{
+						Name:  "bind",
+						Value: ":8042",
+					},
+				},
+				Action: server,
+			}, {
+				Name: "info",
+				Action: func(c *cli.Context) error {
+					info, err := getInfo(c)
+					out, err := json.MarshalIndent(info, "", "  ")
+					if err != nil {
+						return err
+					}
+					fmt.Println(string(out))
+					return nil
+				},
+			},
+		},
+	}
+	if err := app.Run(os.Args); err != nil {
+		panic(err)
+	}
 }
