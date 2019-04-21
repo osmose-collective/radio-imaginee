@@ -45,21 +45,38 @@ jingles = mksafe(
             )
         )
     )
-songs_chill = mksafe(
+
+songs_grand_public = mksafe(
     audio_to_stereo(
         rewrite_metadata(
             [
-                ("title", "$(title) (chill - sdm)"),
+                ("title", "$(title) (grand public - sdm)"),
                 ("comment", "https://www.lasuitedumonde.com")
                 ],
             playlist.safe(
                 reload=600,
-                "/playlists/musiques/grand-public/chill",
+                "/playlists/musiques/grand-public",
                 mode="randomize",reload_mode="rounds"
                 )
             )
         )
     )
+
+#songs_chill = mksafe(
+#    audio_to_stereo(
+#        rewrite_metadata(
+#            [
+#                ("title", "$(title) (chill - sdm)"),
+#                ("comment", "https://www.lasuitedumonde.com")
+#                ],
+#            playlist.safe(
+#                reload=600,
+#                "/playlists/musiques/grand-public/chill",
+#                mode="randomize",reload_mode="rounds"
+#                )
+#            )
+#        )
+#    )
 
 
 live_priority = audio_to_stereo(
@@ -113,8 +130,7 @@ live_guest = audio_to_stereo(
 #        ({ true }, songs_journee)
 #])
 
-
-auto_mix = songs_chill
+auto_mix = songs_grand_public
 auto_mix = fade(jingles, auto_mix)
 
 mix = fallback(track_sensitive=false, [live_priority, live_guest, auto_mix])

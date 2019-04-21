@@ -35,4 +35,4 @@ telnet:
 
 .PHONY: skip
 skip:
-	echo 'main(dot)harbor.skip' | nc -v localhost 5000
+	echo "main(dot)harbor.skip\r\nexit" | nc -v localhost 5000
