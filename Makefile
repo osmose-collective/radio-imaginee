@@ -28,3 +28,11 @@ up:
 .PHONY: logs
 logs:
 	$(ENV) docker-compose logs --tail=100 -f
+
+.PHONY: telnet
+telnet:
+	nc -v localhost 5000
+
+.PHONY: skip
+skip:
+	echo 'main(dot)harbor.skip' | nc -v localhost 5000
