@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strings"
 	"time"
 
 	cli "gopkg.in/urfave/cli.v2"
@@ -27,6 +28,12 @@ func getInfo(c *cli.Context) (*Info, error) {
 		Listeners:    0,
 		CurrentTrack: "mylena - hey",
 	}
+
+	currentTrackFile, err := ioutil.ReadFile(c.String("data-dir") + "/latest.txt")
+	if err != nil {
+		return nil, err
+	}
+	info.CurrentTrack = strings.TrimSpace(string(currentTrackFile))
 
 	// fetch real listeners
 	if xmlStr, err := getWithAuth("http://new.radio.lasuitedumonde.com:8000/admin/stats.xml"); err != nil {
