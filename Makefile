@@ -21,9 +21,18 @@ all: up logs
 re-main: up
 	$(ENV) docker-compose up -d --no-deps --force-recreate main
 
+.PHONY: re-controller
+re-controller: up
+	$(ENV) docker-compose up -d --build --no-deps --force-recreate controller
+
 .PHONY: up
 up:
+	-@mkdir -p logs/icecast2; chmod 777 logs logs/icecast2; true
 	$(ENV) docker-compose up -d --no-recreate
+
+.PHONY: down ps
+down ps:
+	$(ENV) docker-compose $@
 
 .PHONY: logs
 logs:
