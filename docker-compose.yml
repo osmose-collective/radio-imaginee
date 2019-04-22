@@ -67,4 +67,13 @@ services:
       - ICECAST_RELAY_PASSWORD
     ports:
       - 8000:8000
-    restart: always
+
+  filebrowser:
+    image: filebrowser/filebrowser
+    volumes:
+      - ./playlists:/srv
+      - ./data/filebrowser.db:/database.db
+      - ./.filebrowser.json:/.filebrowser.json
+    restart: on-failure
+    ports:
+      - 8044:80
