@@ -11,6 +11,8 @@ RUN             go build -ldflags '-extldflags "-static"' -tags netgo -v -o /go/
 # minimal runtime
 FROM            alpine
 COPY            --from=builder /go/bin/controller /bin/controller
+WORKDIR		/workdir
+COPY		--from=builder /go/src/github.com/ultreme/radio-imaginee/controller/www www
 ENTRYPOINT      ["/bin/controller"]
 CMD             []
 EXPOSE          8042
