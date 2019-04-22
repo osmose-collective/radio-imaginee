@@ -46,6 +46,14 @@ func server(c *cli.Context) error {
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(out)
 	})
+	r.Get("/skip", func(w http.ResponseWriter, r *http.Request) {
+		msg, err := skip(c)
+		if err != nil {
+			// FIXME: display error
+			return
+		}
+		w.Write([]byte(msg))
+	})
 	fmt.Printf("Starting server on %q...\n", c.String("bind"))
 	return http.ListenAndServe(c.String("bind"), r)
 }
