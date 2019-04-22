@@ -17,6 +17,11 @@ func main() {
 				Value:   "../data",
 				EnvVars: []string{"CTRL_DATA_DIR"},
 			},
+			&cli.StringFlag{
+				Name:    "liq-telnet-addr",
+				Value:   "localhost:5000",
+				EnvVars: []string{"CTRL_LIQ_TELNET_ADDR"},
+			},
 		},
 		Commands: []*cli.Command{
 			{
@@ -41,6 +46,16 @@ func main() {
 						return err
 					}
 					fmt.Println(string(out))
+					return nil
+				},
+			}, {
+				Name: "skip",
+				Action: func(c *cli.Context) error {
+					ret, err := skip(c)
+					if err != nil {
+						return err
+					}
+					fmt.Print(ret)
 					return nil
 				},
 			},

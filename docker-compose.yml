@@ -28,13 +28,15 @@ services:
     volumes:
       - ./data:/data
     restart: on-failure
-    command: --data-dir=/data server
+    command: server
     links:
       - icecast
       - main
     environment:
       - HARBOR_PASSWORD
       - ICECAST_SOURCE_PASSWORD
+      - DATA_DIR=/data
+      - CTRL_LIQ_TELNET_ADDR=main:5000
   
   broadcast:
     image: moul/liquidsoap

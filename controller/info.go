@@ -36,15 +36,17 @@ func getInfo(c *cli.Context) (*Info, error) {
 	info.CurrentTrack = strings.TrimSpace(string(currentTrackFile))
 
 	// fetch real listeners
-	if xmlStr, err := getWithAuth("http://new.radio.lasuitedumonde.com:8000/admin/stats.xml"); err != nil {
+	xmlStr, err := getWithAuth("http://new.radio.lasuitedumonde.com:8000/admin/stats.xml")
+	if err != nil {
 		return nil, fmt.Errorf("failed to get XML: %v", err)
-	} else {
-		var stats Icestats
-		xml.Unmarshal([]byte(xmlStr), &stats)
-		if stats.Listeners > info.Listeners {
-			info.Listeners = stats.Listeners
-		}
 	}
+
+	var stats Icestats
+	xml.Unmarshal([]byte(xmlStr), &stats)
+	if stats.Listeners > info.Listeners {
+		info.Listeners = stats.Listeners
+	}
+
 	return info, nil
 }
 
