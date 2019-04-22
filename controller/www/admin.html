@@ -1,0 +1,21 @@
+<html>
+  <head>
+    <script>
+      function refreshInfo() {
+        document.getElementById("info").contentWindow.location.reload();
+      }
+      function skip() {
+        var xhr = new XMLHttpRequest();
+        // FIXME: handle reply
+        xhr.open('GET', '/api/skip');
+        xhr.send();
+        setTimeout(refreshInfo(), 2000);
+      }
+      setInterval(refreshInfo, 10000);
+    </script>
+  </head>
+  <body>
+    <input type="button" value="Skip" onclick="skip()"/><br />
+    <iframe src="/api/info" id="info"></iframe>
+  </body>
+</html>
