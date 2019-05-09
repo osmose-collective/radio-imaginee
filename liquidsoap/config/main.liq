@@ -34,6 +34,18 @@ def write_metadata_to_file(m) =
     system("echo "^ quote(m["artist"] ^" - "^ m["title"]) ^" >> /data/history.txt")
 end
 
+def check_emission_time() =
+    localtime(time(), fun (~sec,~min,~hour,~mday,~mon,~year,~wday,~yday,~isdst) ->
+    mhour == 19 and min == 30) 
+end
+
+def emission_polling(source) =
+    if check_emission_time then
+        request.queue(id=source)
+    end
+    false
+end
+
 jingles = mksafe(
     rewrite_metadata(
         [
@@ -82,6 +94,23 @@ songs_grand_public = mksafe(
 #            )
 #        )
 #    )
+
+emissions = mksafe(
+    audio_to_stereo(
+        rewrite_metadata(
+            [
+                ("title", "$(title) (emissions - sdm)"),
+                ("comment", "https://www.lasuitedumonde.com")
+                ],
+            playlist.safe(
+                reload=600,
+                "/playlists/emissions",
+                mode="randomize",reload_mode="rounds"
+                ),
+                id="emissions"
+            )
+        )
+    )
 
 
 live_priority = audio_to_stereo(
@@ -138,7 +167,10 @@ live_guest = audio_to_stereo(
 auto_mix = songs_grand_public
 auto_mix = fade(jingles, auto_mix)
 
-mix = fallback(track_sensitive=false, [live_priority, live_guest, auto_mix])
+add_timeout(10, emission_polling("emissions"))
+
+mix = fallback(track_sensitive=false, [live_priority, live_guest, emissions, auto_mix])
+
 
 # normalizer
 mix = audio_process(mix)
