@@ -36,7 +36,7 @@ func getInfo(c *cli.Context) (*Info, error) {
 	info.CurrentTrack = strings.TrimSpace(string(currentTrackFile))
 
 	// fetch real listeners
-	xmlStr, err := getWithAuth("http://new.radio.lasuitedumonde.com:8000/admin/stats.xml")
+	xmlStr, err := getWithAuth("http://stream.osmose.world/admin/stats.xml")
 	if err != nil {
 		return nil, fmt.Errorf("failed to get XML: %v", err)
 	}

@@ -28,12 +28,12 @@ re-controller: up
 .PHONY: up
 up:
 	-@mkdir -p logs/icecast2 data
-	-@touch data/filebrowser.db
-	-@chmod 777 data logs logs/icecast2 data/filebrowser.db
+	-@touch data/filebrowser.db data/history.txt data/latest.txt
+	-@chmod 777 data logs logs/icecast2 data/filebrowser.db data/history.txt data/latest.txt
 	$(ENV) docker-compose up -d --no-recreate
 
-.PHONY: down ps
-down ps:
+.PHONY: down ps build
+down ps build:
 	$(ENV) docker-compose $@
 
 .PHONY: logs
@@ -47,3 +47,6 @@ telnet:
 .PHONY: skip
 skip:
 	echo "main(dot)harbor.skip\r\nexit" | nc -v localhost 5000
+
+.PHONY: re
+re: down build up logs
