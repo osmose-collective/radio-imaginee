@@ -1,0 +1,7 @@
+{
+  "name": "Radio_OSMOSE",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}
