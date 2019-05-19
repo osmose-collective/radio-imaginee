@@ -1,4 +1,4 @@
-module github.com/ultreme/radio-imaginee/controller
+module github.com/osmose-collective/radio-imaginee/controller
 
 go 1.12
 
