@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http'; 
+import { HttpClient } from '@angular/common/http';
 import 'rxjs/add/operator/map';
 
-const serverURL = 'http://74.63.216.50:8000';
+const serverURL = 'http://stream.osmose.world';
 
 @Injectable()
 export class CloudProvider {
@@ -17,12 +17,12 @@ export class CloudProvider {
       this.files = [];
 
     //if (this.files) {
-      this.files[0] = serverURL + '/stream.ogg';
+      this.files[0] = serverURL + '/radio-imaginee.ogg';
       console.log(this.files[0]);
       return this.files;
       //return Promise.resolve(this.files);
     //}
- 
+
     /*return new Promise(resolve => {
       this.http.get(serverURL + '/sound_list')
         .subscribe(data => {
@@ -39,7 +39,7 @@ export class CloudProvider {
             temporaryValue = this.files[currentIndex];
             this.files[currentIndex] = this.files[randomIndex];
             this.files[randomIndex] = temporaryValue;
-          }        
+          }
 
           resolve(this.files);
         });
