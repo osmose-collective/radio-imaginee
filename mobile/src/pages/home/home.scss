@@ -1,7 +1,49 @@
+@font-face {
+  font-family: 'Nunito Regular';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../assets/fonts/Nunito-Regular.ttf');
+  text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.7);
+}
+
+@font-face {
+  font-family: 'Nunito SemiBold';
+  font-style: semi-bold;
+  font-weight: 600;
+  src: url('../assets/fonts/Nunito-SemiBold.ttf');
+  text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.7);
+}
+
+@font-face {
+  font-family: 'Nunito Bold';
+  font-style: bold;
+  font-weight: 700;
+  src: url('../assets/fonts/Nunito-Bold.ttf');
+  text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.7);
+}
+
+@font-face {
+  font-family: 'Nunito Light';
+  src: url('../assets/fonts/Nunito-Light.ttf');
+  text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.7);
+}
+
+@font-face {
+  font-family: 'Wowi Typeface';
+  src: url('../assets/fonts/Wowi Typeface - Demo.ttf');
+  text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.7);
+}
+
+@font-face {
+  font-family: 'Nunito Black';
+  src: url('../assets/fonts/Nunito-Black.ttf');
+  text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.7);
+}
+
+
 page-home {
   .scroll-content{
     overflow-y: hidden;
-    padding-top: 30px;
   }
 
   ion-header {
@@ -9,11 +51,11 @@ page-home {
   }
 
   ion-content {
-    background-image: url('../../assets/imgs/home.png');
     background-repeat: no-repeat;
     background-size: auto 100%;
     background-position: center;
     overflow: hidden;
+    background-image: url('../../assets/imgs/home.png');
   }
 
   #menu button {
@@ -28,7 +70,65 @@ page-home {
     }
   }
 
-  ion-footer {
-    text-align: center;
+  #player-controls {
+    button {
+      ion-icon {
+        font-size: 10rem;
+      }  
+    }
+    .col {
+      height: auto!important;
+    }
   }
+
+  #comment-font {
+    p {
+      font-weight: 550 !important; 
+      color: antiquewhite !important;
+      font-family: "Nunito SemiBold" !important; 
+    }
+  }
+
+  #title-box {
+    p {
+      margin:0;
+      color: antiquewhite !important;
+    }
+    #style-title-top {
+      font-family: "Nunito Black" !important; 
+      font-size: 20px !important; 
+    }
+    #style-title-middle {
+      font-family: "Wowi Typeface" !important; 
+      font-size: 15px !important; 
+    }   
+    #style-title-bottom {
+      font-family: "Nunito Black" !important;
+      font-size: 30px !important; 
+    }      
+  }
+}
+
+.toolbar-background-md {
+  background: transparent!important;
+  --ion-color-base: transparent !important;
+}
+
+.toolbar-background {
+  background: transparent!important;
+  --ion-color-base: transparent !important;
+}
+
+.toolbar-title-ios {
+  padding-top: 30px!important;
+}
+
+#description-block {
+  line-height: 18px;
+}
+
+#made-by {
+  font-family: "Arial";
+  font-size: 11px;
+  line-height: 2px;
 }
