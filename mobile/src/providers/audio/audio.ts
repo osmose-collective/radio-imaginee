@@ -28,10 +28,7 @@ export class AudioProvider {
     };
 
     return Observable.create(observer => {
-      // Play audio
       this.audioObj.src = url;
-      this.audioObj.load();
-      this.audioObj.play();
 
       // Media Events
       const handler = (event) => observer.next(event);
@@ -48,7 +45,7 @@ export class AudioProvider {
     });
   }
 
-  playStream(url) {
+  initStream(url) {
     return this.streamObservable(url).pipe(takeUntil(this.stop$));
   }
 
@@ -69,9 +66,6 @@ export class AudioProvider {
   }
 
   formatTime(time, format) {
-    /*console.log("time: "+time);
-    console.log("format: "+format);
-    console.log(moment(time).add(new Date().getTimezoneOffset(), "minutes").format(format));*/
     return moment(time).add(new Date().getTimezoneOffset(), "minutes").format(format);
   }
 }

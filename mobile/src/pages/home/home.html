@@ -1,42 +1,57 @@
-<ion-header>
-  <ion-toolbar color='primary' padding>
-    <ion-title>
+<ion-header translucent no-border>
+    <ion-title color="light">
       <img src="../../assets/imgs/logo.png" height="60">
     </ion-title>
-  </ion-toolbar>
+  
 </ion-header>
 
-<ion-content no-bounce padding>
+<ion-content no>
+  <ion-grid style="height: 100%; display: flex; flex-flow: column;">
+        <ion-row>
+          <ion-col id="title-box">
+              <div text-center>
+                  <p><span id="style-title-top">RADIO IMAGINÉE</span>
+                    <span id="style-title-middle"><br/>Par et Pour</span>
+                    <span id="style-title-bottom"><br/>La Suite du Monde</span></p>
+              </div>
+          </ion-col>
+        </ion-row>
+      
+        <ion-row style="flex-grow: 1;" align-items-center id="player-controls">
+          <ion-col>
+              <button clear ion-col ion-button *ngIf="!state.playing" (click)="play()">
+                  <ion-icon color="light" name="play"></ion-icon>
+              </button>
+              <button clear ion-col ion-button *ngIf="!!state.playing" (click)="pause()">
+                  <ion-icon color="light" name="pause"></ion-icon>
+              </button>
+          </ion-col>
+        </ion-row>
+      
+        <ion-row>
+          <ion-col text-center id="comment-font">
+                <p><span id="description-block">Actualités, Émissions, Interviews, Musique, Petites Annonces, Méditations, Direct ... Participez !</span></p>
+                <p (click)="openOSMOSELink()"><span id="made-by">Made with &#10084; by OSMOSE<br/></span></p>           
+          </ion-col>
+        </ion-row>
+  </ion-grid>
 </ion-content>
 
-<ion-footer *ngIf="currentFile.file">
-  <ion-toolbar color="primary">
-    <ion-grid>
-      <ion-row *ngIf="toggleMenu" align-items-center id="menu">
-        <button clear ion-col ion-button (click)="openArtistsLink()">
-            _ABOUT ARTISTS
-          </button>
-          <button clear ion-col ion-button (click)="openSamouraiLink()">
-            _SAMOURAI COOP
-          </button>
-      </ion-row>
+<ion-footer no-border>
+  <ion-toolbar>
       <ion-row align-items-center id="media-controls">
-        <button clear ion-col ion-button (click)="openMenu()">
-          <ion-icon color="light" name="add-circle"> </ion-icon>
-        </button>
-        <button clear ion-col ion-button *ngIf="!state.playing" (click)="play()">
-          <ion-icon color="light" name="play"></ion-icon>
-        </button>
-        <button clear ion-col ion-button *ngIf="!!state.playing" (click)="pause()">
-          <ion-icon color="light" name="pause"></ion-icon>
-        </button>
-        <button clear ion-col ion-button>
-          <ion-icon color="light" name="arrow-dropright-circle"></ion-icon>
-        </button>
-      </ion-row>
-    </ion-grid>
-  </ion-toolbar>
-  <ion-toolbar class="secondFooter" color="primary">
-      <img src="../../assets/imgs/footer.png" height="35">
+          <button clear ion-col ion-button (click)="openLaSuiteDuMondeFacebookLink()">
+            <ion-icon color="light" name="logo-facebook"> </ion-icon>
+          </button>
+          <button clear ion-col ion-button (click)="openLaSuiteDuMondeLink()">
+              <ion-icon color="light" name="planet"> </ion-icon>
+          </button>
+          <button clear ion-col ion-button (click)="openLaSuiteDuMondeInstagramLink()">
+              <ion-icon color="light" name="logo-instagram"> </ion-icon>
+          </button>
+          <button clear ion-col ion-button (click)="openLaSuiteDuMondeTelegramLink()">
+              <ion-icon color="light" name="paper-plane"></ion-icon>
+          </button>
+      </ion-row>        
   </ion-toolbar>
 </ion-footer>

@@ -11,15 +11,14 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 import { mediaStateReducer } from '../providers/store/store';
 import { AudioProvider } from '../providers/audio/audio';
-import { CloudProvider } from '../providers/cloud/cloud';
 
-import { RadioOSMOSE } from './app.component';
+import { RadioSDM } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { IonicStorageModule } from '@ionic/storage';
 
 @NgModule({
   declarations: [
-    RadioOSMOSE,
+    RadioSDM,
     HomePage
   ],
   imports: [
@@ -30,18 +29,17 @@ import { IonicStorageModule } from '@ionic/storage';
     StoreModule.forRoot({
       appState: mediaStateReducer
     }),
-    IonicModule.forRoot(RadioOSMOSE)
+    IonicModule.forRoot(RadioSDM)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    RadioOSMOSE,
+    RadioSDM,
     HomePage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     AudioProvider,
-    CloudProvider,
     NavigationBar,
     InAppBrowser,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
