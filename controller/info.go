@@ -52,7 +52,7 @@ func getInfo(c *cli.Context) (*Info, error) {
 	}
 
 	// fetch real listeners
-	xmlStr, err := getWithAuth("http://stream.osmose.world/admin/stats.xml")
+	xmlStr, err := getWithAuth("https://stream.osmose.world/admin/stats.xml")
 	if err != nil {
 		info.Errors = append(info.Errors, err.Error())
 		info.Listeners = 42 // fake value when cannot get the real one :)
