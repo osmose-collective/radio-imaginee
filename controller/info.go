@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/xml"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -15,6 +14,7 @@ type Info struct {
 	CurrentTime  time.Time
 	Listeners    int
 	CurrentTrack string
+	Errors       []string
 }
 
 type Icestats struct {
@@ -25,26 +25,30 @@ type Icestats struct {
 func getInfo(c *cli.Context) (*Info, error) {
 	info := &Info{
 		CurrentTime:  time.Now(),
-		Listeners:    0,
-		CurrentTrack: "mylena - hey",
+		Listeners:    0, // default (if different from 0, it will be the minimum number displayed)
+		CurrentTrack: "",
+		Errors:       []string{},
 	}
 
 	currentTrackFile, err := ioutil.ReadFile(c.String("data-dir") + "/latest.txt")
 	if err != nil {
-		return nil, err
+		info.Errors = append(info.Errors, err.Error())
+		info.CurrentTrack = "Unknown song"
+	} else {
+		info.CurrentTrack = strings.TrimSpace(string(currentTrackFile))
 	}
-	info.CurrentTrack = strings.TrimSpace(string(currentTrackFile))
 
 	// fetch real listeners
 	xmlStr, err := getWithAuth("http://stream.osmose.world/admin/stats.xml")
 	if err != nil {
-		return nil, fmt.Errorf("failed to get XML: %v", err)
-	}
-
-	var stats Icestats
-	xml.Unmarshal([]byte(xmlStr), &stats)
-	if stats.Listeners > info.Listeners {
-		info.Listeners = stats.Listeners
+		info.Errors = append(info.Errors, err.Error())
+		info.Listeners = 42 // fake value when cannot get the real one :)
+	} else {
+		var stats Icestats
+		xml.Unmarshal([]byte(xmlStr), &stats)
+		if stats.Listeners > info.Listeners {
+			info.Listeners = stats.Listeners
+		}
 	}
 
 	return info, nil
