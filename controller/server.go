@@ -39,6 +39,20 @@ func server(c *cli.Context) error {
 			w.Header().Set("Content-Type", "application/json")
 			w.Write(out)
 		})
+		r.Get("/history", func(w http.ResponseWriter, r *http.Request) {
+			history, err := getHistory(c)
+			if err != nil {
+				http.Error(w, err.Error(), 500)
+				return
+			}
+			out, err := json.MarshalIndent(history, "", "  ")
+			if err != nil {
+				http.Error(w, err.Error(), 500)
+				return
+			}
+			w.Header().Set("Content-Type", "application/json")
+			w.Write(out)
+		})
 		r.Get("/skip", func(w http.ResponseWriter, r *http.Request) {
 			msg, err := skip(c)
 			if err != nil {

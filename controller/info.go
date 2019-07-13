@@ -22,6 +22,19 @@ type Icestats struct {
 	Listeners int      `xml:"listeners"`
 }
 
+func getHistory(c *cli.Context) ([]string, error) {
+	f, err := ioutil.ReadFile(c.String("data-dir") + "/history.txt")
+	if err != nil {
+		return nil, err
+	}
+	history := strings.Split(string(f), "\n")
+	last := c.Int("history-limit")
+	if last < len(history) {
+		history = history[len(history)-last:]
+	}
+	return history, nil
+}
+
 func getInfo(c *cli.Context) (*Info, error) {
 	info := &Info{
 		CurrentTime:  time.Now(),

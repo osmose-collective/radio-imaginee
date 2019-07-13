@@ -3,6 +3,7 @@
     <script>
       function refreshInfo() {
         document.getElementById("info").contentWindow.location.reload();
+        document.getElementById("history").contentWindow.location.reload();
       }
       function skip() {
         var xhr = new XMLHttpRequest();
@@ -16,6 +17,7 @@
   </head>
   <body>
     <input type="button" value="Skip" onclick="skip()"/><br />
-    <iframe src="/api/info" id="info" width="100%" height="500"></iframe>
+    <iframe src="/api/info" id="info" width="100%" height="300"></iframe>
+    <iframe src="/api/history" id="history" width="100%" height="300"></iframe>
   </body>
 </html>
