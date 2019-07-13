@@ -1,0 +1,15 @@
+{
+  "name": "Radio Imaginee",
+  "short_name": "radioimaginee",
+  "description": "La radio imaginee",
+  "icons": [
+    {
+      "src": "icon-96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "display": "fullscreen"
+}
+

@@ -18,6 +18,16 @@ func main() {
 				EnvVars: []string{"CTRL_DATA_DIR"},
 			},
 			&cli.StringFlag{
+				Name:    "playlists-dir",
+				Value:   "../playlists",
+				EnvVars: []string{"CTRL_PLAYLISTS_DIR"},
+			},
+			&cli.IntFlag{
+				Name:    "history-limit",
+				Value:   10,
+				EnvVars: []string{"CTRL_HIST_LIMIT"},
+			},
+			&cli.StringFlag{
 				Name:    "liq-telnet-addr",
 				Value:   "localhost:5000",
 				EnvVars: []string{"CTRL_LIQ_TELNET_ADDR"},
@@ -42,6 +52,34 @@ func main() {
 						return err
 					}
 					out, err := json.MarshalIndent(info, "", "  ")
+					if err != nil {
+						return err
+					}
+					fmt.Println(string(out))
+					return nil
+				},
+			}, {
+				Name: "playlists-info",
+				Action: func(c *cli.Context) error {
+					info, err := getPlaylistsInfo(c)
+					if err != nil {
+						return err
+					}
+					out, err := json.MarshalIndent(info, "", "  ")
+					if err != nil {
+						return err
+					}
+					fmt.Println(string(out))
+					return nil
+				},
+			}, {
+				Name: "history",
+				Action: func(c *cli.Context) error {
+					history, err := getHistory(c)
+					if err != nil {
+						return err
+					}
+					out, err := json.MarshalIndent(history, "", "  ")
 					if err != nil {
 						return err
 					}

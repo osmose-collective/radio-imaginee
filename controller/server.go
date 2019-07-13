@@ -27,9 +27,41 @@ func server(c *cli.Context) error {
 		r.Use(render.SetContentType(render.ContentTypeJSON))
 		r.Get("/info", func(w http.ResponseWriter, r *http.Request) {
 			info, err := getInfo(c)
+			if err != nil {
+				http.Error(w, err.Error(), 500)
+				return
+			}
 			out, err := json.MarshalIndent(info, "", "  ")
 			if err != nil {
-				// FIXME: display error
+				http.Error(w, err.Error(), 500)
+				return
+			}
+			w.Header().Set("Content-Type", "application/json")
+			w.Write(out)
+		})
+		r.Get("/history", func(w http.ResponseWriter, r *http.Request) {
+			history, err := getHistory(c)
+			if err != nil {
+				http.Error(w, err.Error(), 500)
+				return
+			}
+			out, err := json.MarshalIndent(history, "", "  ")
+			if err != nil {
+				http.Error(w, err.Error(), 500)
+				return
+			}
+			w.Header().Set("Content-Type", "application/json")
+			w.Write(out)
+		})
+		r.Get("/playlists/info", func(w http.ResponseWriter, r *http.Request) {
+			info, err := getPlaylistsInfo(c)
+			if err != nil {
+				http.Error(w, err.Error(), 500)
+				return
+			}
+			out, err := json.MarshalIndent(info, "", "  ")
+			if err != nil {
+				http.Error(w, err.Error(), 500)
 				return
 			}
 			w.Header().Set("Content-Type", "application/json")
@@ -38,7 +70,7 @@ func server(c *cli.Context) error {
 		r.Get("/skip", func(w http.ResponseWriter, r *http.Request) {
 			msg, err := skip(c)
 			if err != nil {
-				// FIXME: display error
+				http.Error(w, err.Error(), 500)
 				return
 			}
 			w.Write([]byte(msg))

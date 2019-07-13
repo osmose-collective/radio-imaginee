@@ -26,7 +26,8 @@ services:
     ports:
       - 8042:8042
     volumes:
-      - ./data:/data
+      - ./data:/data:ro
+      - ./playlists:/playlists:ro
     restart: on-failure
     command: server
     links:
@@ -39,6 +40,7 @@ services:
       - HARBOR_PASSWORD
       - ICECAST_SOURCE_PASSWORD
       - DATA_DIR=/data
+      - PLAYLISTS_DIR=/playlists
       - CTRL_LIQ_TELNET_ADDR=main:5000
       - VIRTUAL_HOST=controller-radio.berty-osmose.stack.cool,radio.osmose.world
       - VIRTUAL_PORT=8042
