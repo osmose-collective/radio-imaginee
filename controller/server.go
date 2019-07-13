@@ -53,6 +53,20 @@ func server(c *cli.Context) error {
 			w.Header().Set("Content-Type", "application/json")
 			w.Write(out)
 		})
+		r.Get("/playlists/info", func(w http.ResponseWriter, r *http.Request) {
+			info, err := getPlaylistsInfo(c)
+			if err != nil {
+				http.Error(w, err.Error(), 500)
+				return
+			}
+			out, err := json.MarshalIndent(info, "", "  ")
+			if err != nil {
+				http.Error(w, err.Error(), 500)
+				return
+			}
+			w.Header().Set("Content-Type", "application/json")
+			w.Write(out)
+		})
 		r.Get("/skip", func(w http.ResponseWriter, r *http.Request) {
 			msg, err := skip(c)
 			if err != nil {

@@ -17,6 +17,11 @@ func main() {
 				Value:   "../data",
 				EnvVars: []string{"CTRL_DATA_DIR"},
 			},
+			&cli.StringFlag{
+				Name:    "playlists-dir",
+				Value:   "../playlists",
+				EnvVars: []string{"CTRL_PLAYLISTS_DIR"},
+			},
 			&cli.IntFlag{
 				Name:    "history-limit",
 				Value:   10,
@@ -43,6 +48,20 @@ func main() {
 				Name: "info",
 				Action: func(c *cli.Context) error {
 					info, err := getInfo(c)
+					if err != nil {
+						return err
+					}
+					out, err := json.MarshalIndent(info, "", "  ")
+					if err != nil {
+						return err
+					}
+					fmt.Println(string(out))
+					return nil
+				},
+			}, {
+				Name: "playlists-info",
+				Action: func(c *cli.Context) error {
+					info, err := getPlaylistsInfo(c)
 					if err != nil {
 						return err
 					}
