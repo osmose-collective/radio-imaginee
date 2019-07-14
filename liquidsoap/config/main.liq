@@ -43,7 +43,7 @@ jingles = mksafe(
             ],
         audio_to_stereo(
             playlist.safe(
-                reload=1800,
+                reload=600,
                 "/playlists/jingles",
                 mode="randomize",reload_mode="rounds"
                 )
@@ -55,7 +55,7 @@ songs_grand_public = mksafe(
     audio_to_stereo(
         rewrite_metadata(
             [
-                ("title", "$(title) (grand public - sdm)"),
+                ("title", "$(title) (Radio imaginee)"),
                 ("comment", "https://www.lasuitedumonde.com")
                 ],
             playlist.safe(
@@ -66,6 +66,25 @@ songs_grand_public = mksafe(
             )
         )
     )
+
+emissions = mksafe(
+    audio_to_stereo(
+        rewrite_metadata(
+            [
+#                ("title", "$(title) (emissions - sdm)"),
+                ("title", "Emission imaginee"),
+                ("comment", "https://www.lasuitedumonde.com")
+                ],
+            playlist.safe(
+                reload=600,
+                "/playlists/emissions",
+                mode="randomize",reload_mode="rounds"
+                )
+            )
+        )
+    )
+
+
 
 #songs_chill = mksafe(
 #    audio_to_stereo(
@@ -135,10 +154,21 @@ live_guest = audio_to_stereo(
 #        ({ true }, songs_journee)
 #])
 
+# just a test :)
+#req = say_metadata(request.queue())
+#hello = single("say:Hello world!")
+
+emissions_mix = switch([
+	 ({9h and 0m and 0s-5s},emissions),
+	 ({12h and 0m and 0s-5s},emissions),
+	 ({15h and 0m and 0s-5s},emissions),
+	 ({18h and 0m and 0s-5s},emissions),
+	 ({22h and 0m and 0s-5s},emissions),
+])
 auto_mix = songs_grand_public
 auto_mix = fade(jingles, auto_mix)
 
-mix = fallback(track_sensitive=false, [live_priority, live_guest, auto_mix])
+mix = fallback(track_sensitive=false, [live_priority, live_guest, emissions_mix, auto_mix])
 
 # normalizer
 mix = audio_process(mix)
