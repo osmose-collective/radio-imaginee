@@ -51,7 +51,7 @@ jingles = mksafe(
         )
     )
 
-songs_grand_public = mksafe(
+songs = mksafe(
     audio_to_stereo(
         rewrite_metadata(
             [
@@ -60,7 +60,7 @@ songs_grand_public = mksafe(
                 ],
             playlist.safe(
                 reload=600,
-                "/playlists/musiques/grand-public",
+                "/playlists/musiques",
                 mode="randomize",reload_mode="rounds"
                 )
             )
@@ -84,25 +84,6 @@ emissions = mksafe(
         )
     )
 
-
-
-#songs_chill = mksafe(
-#    audio_to_stereo(
-#        rewrite_metadata(
-#            [
-#                ("title", "$(title) (chill - sdm)"),
-#                ("comment", "https://radio.osmose.world/")
-#                ],
-#            playlist.safe(
-#                reload=600,
-#                "/playlists/musiques/grand-public/chill",
-#                mode="randomize",reload_mode="rounds"
-#                )
-#            )
-#        )
-#    )
-
-
 live_priority = audio_to_stereo(
     rewrite_metadata(
         [
@@ -122,6 +103,7 @@ live_priority = audio_to_stereo(
             )
         )
     )
+
 live_guest = audio_to_stereo(
     rewrite_metadata(
         [
@@ -162,7 +144,7 @@ emissions_mix = switch([
 	 ({22h and 0m and 0s-5s},emissions),
 ])
 
-auto_mix = songs_grand_public # FIXME: use a genre-based scheduler
+auto_mix = songs # FIXME: use a genre-based scheduler
 #auto_mix = dole_fade(jingles=jingles, auto_mix)
 auto_mix = fade(jingles, auto_mix)
 
