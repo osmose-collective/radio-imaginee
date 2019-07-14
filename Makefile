@@ -50,3 +50,10 @@ skip:
 
 .PHONY: re
 re: down build up logs
+
+.PHONY: cleanup-playlists
+cleanup-playlists:
+	@# sudo apt install faad mplayer lame ffmpeg
+	find playlists -iname "*.m4a" | while read file; do (set -x; faad -o "$$file.mp3" "$$file" && rm "$$file"); sleep .1; done
+	@#find playlists -iname "*.wma" | while read file; do (set -x; mplayer -vo null -vc dummy -af resample=44100 -ao pcm:waveheader "$$file" && lame -m -s audiodump.wav -o "$$file.mp3"; rm -f audiodump.wav); sleep .1; done
+	@#find playlists -iname "*.wma" | while read file; do (set -x; ffmpeg -loglevel info -y -vsync 2 -i "$$file" -acodec libmp3lame -ab 128k "$$file.mp3"); sleep .1; done
