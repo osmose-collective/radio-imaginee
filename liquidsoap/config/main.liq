@@ -7,7 +7,7 @@
 # CONFIGS
 set("log.file", true)
 set("log.stdout", true)
-set("log.level", 2)
+set("log.level", 3)
 set("server.telnet", true)
 set("server.telnet.port", 5000)
 set("server.telnet.bind_addr", "0.0.0.0")
@@ -37,13 +37,13 @@ end
 jingles = mksafe(
     rewrite_metadata(
         [
-            ("artist", "La Suite du Monde"),
+            ("artist", "Radio imaginee"),
             ("title","Jingle"),
-            ("comment","https://www.lasuitedumonde.com/")
+            ("comment","https://radio.osmose.world/")
             ],
         audio_to_stereo(
             playlist.safe(
-                reload=1800,
+                reload=600,
                 "/playlists/jingles",
                 mode="randomize",reload_mode="rounds"
                 )
@@ -55,8 +55,8 @@ songs_grand_public = mksafe(
     audio_to_stereo(
         rewrite_metadata(
             [
-                ("title", "$(title) (grand public - sdm)"),
-                ("comment", "https://www.lasuitedumonde.com")
+                ("title", "$(title) (Radio imaginee)"),
+                ("comment", "https://radio.osmose.world/")
                 ],
             playlist.safe(
                 reload=600,
@@ -67,12 +67,31 @@ songs_grand_public = mksafe(
         )
     )
 
+emissions = mksafe(
+    audio_to_stereo(
+        rewrite_metadata(
+            [
+#                ("title", "$(title) (emissions - sdm)"),
+                ("title", "Emission imaginee"),
+                ("comment", "https://radio.osmose.world/")
+                ],
+            playlist.safe(
+                reload=600,
+                "/playlists/emissions",
+                mode="randomize",reload_mode="rounds"
+                )
+            )
+        )
+    )
+
+
+
 #songs_chill = mksafe(
 #    audio_to_stereo(
 #        rewrite_metadata(
 #            [
 #                ("title", "$(title) (chill - sdm)"),
-#                ("comment", "https://www.lasuitedumonde.com")
+#                ("comment", "https://radio.osmose.world/")
 #                ],
 #            playlist.safe(
 #                reload=600,
@@ -88,7 +107,7 @@ live_priority = audio_to_stereo(
     rewrite_metadata(
         [
             ("title", "$(title) (LIVE)"),
-            ("comment", "https://www.lasuitedumonde.com")
+            ("comment", "https://radio.osmose.world/")
            ],
         stretch(
             ratio=interactive.float("test", 1.00005),
@@ -107,7 +126,7 @@ live_guest = audio_to_stereo(
     rewrite_metadata(
         [
             ("title", "$(title) (LIVE)"),
-            ("comment", "http://www.lasuitedumonde")
+            ("comment", "https://radio.osmose.world/"),
             ],
         stretch(
             ratio=interactive.float("test", 1.00005),
@@ -135,10 +154,22 @@ live_guest = audio_to_stereo(
 #        ({ true }, songs_journee)
 #])
 
-auto_mix = songs_grand_public
+emissions_mix = switch([
+	 ({9h and 0m and 0s-5s},emissions),
+	 ({12h and 0m and 0s-5s},emissions),
+	 ({15h and 0m and 0s-5s},emissions),
+	 ({18h and 0m and 0s-5s},emissions),
+	 ({22h and 0m and 0s-5s},emissions),
+])
+
+auto_mix = songs_grand_public # FIXME: use a genre-based scheduler
+#auto_mix = dole_fade(jingles=jingles, auto_mix)
 auto_mix = fade(jingles, auto_mix)
 
-mix = fallback(track_sensitive=false, [live_priority, live_guest, auto_mix])
+mix = fallback(track_sensitive=false, [live_priority, live_guest, emissions_mix, auto_mix])
+
+special = request.queue(id="special")
+mix = smooth_add(normal=mix,special=special)
 
 # normalizer
 mix = audio_process(mix)
@@ -172,3 +203,5 @@ output.icecast(
 #     "/playlists/emissions/guest/" ^ title ^ ".ogg",
 #     live_guest
 #     )
+
+
