@@ -14,7 +14,7 @@
     "@angular/animations": "5.2.11",
     "@angular/common": "5.2.11",
     "@angular/compiler": "5.2.11",
-    "@angular/compiler-cli": "8.1.2",
+    "@angular/compiler-cli": "8.2.14",
     "@angular/core": "5.2.11",
     "@angular/forms": "5.2.11",
     "@angular/http": "5.2.11",
@@ -46,7 +46,7 @@
     "rxjs": "6.2.1",
     "rxjs-compat": "6.2.1",
     "sw-toolbox": "3.6.0",
-    "zone.js": "0.8.26"
+    "zone.js": "0.10.3"
   },
   "devDependencies": {
     "@ionic/app-scripts": "3.2.4",
