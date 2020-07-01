@@ -10,7 +10,7 @@ RUN		go get .
 RUN             go build -ldflags '-extldflags "-static"' -tags netgo -v -o /go/bin/controller
 
 # minimal runtime
-FROM            alpine:3.10
+FROM            alpine:3.12
 RUN		apk add --no-cache ca-certificates && update-ca-certificates
 WORKDIR		/workdir
 COPY            --from=builder /go/bin/controller /bin/controller
